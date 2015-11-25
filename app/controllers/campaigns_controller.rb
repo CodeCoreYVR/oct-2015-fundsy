@@ -10,8 +10,11 @@ class CampaignsController < ApplicationController
                                                        :description, :end_date)
     @campaign = Campaign.new campaign_params
     @campaign.user = current_user
-    @campaign.save
-    redirect_to campaign_path(@campaign)
+    if @campaign.save
+      redirect_to campaign_path(@campaign)
+    else
+      render :new
+    end
   end
 
 end

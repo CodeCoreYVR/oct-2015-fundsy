@@ -81,8 +81,22 @@ RSpec.describe CampaignsController, type: :controller do
         end
       end
       context "with invalid parameters" do
-        it "doesn't create a campaign record in the database"
-        it "renders the new template"
+        def request_with_invalid_title
+          post :create, campaign: valid_params.merge({title: nil})
+        end
+
+        it "doesn't create a campaign record in the database" do
+          # expect { request_with_invalid_title }.not_to change { Campaign.count }
+          before_count = Campaign.count
+          request_with_invalid_title
+          after_count  = Campaign.count
+          expect(before_count).to eq(after_count)
+        end
+
+        it "renders the new template" do
+          request_with_invalid_title
+          expect(response).to render_template(:new)
+        end
       end
     end
   end
