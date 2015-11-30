@@ -14,11 +14,13 @@ RSpec.describe CampaignsController, type: :controller do
   #   @user ||= FactoryGirl.create(:user)
   # end
 
+  let(:campaign) { FactoryGirl.create(:campaign, user: user) }
+
   describe "#new" do
     context "with user not signed in" do
-      it "redirects to user sign up page" do
+      it "redirects to user sign in page" do
         get :new
-        expect(response).to redirect_to(new_user_path)
+        expect(response).to redirect_to(new_session_path)
       end
     end
     context "with user signed in" do
@@ -45,11 +47,11 @@ RSpec.describe CampaignsController, type: :controller do
 
   describe "#create" do
     context "with no user signed in" do
-      it "redirects to the sign up page" do
+      it "redirects to the sign in page" do
         post :create, {campaign: {}} # params don't matter here becuase the
                                      # controller should redirect before making
                                      # use of the campaign params
-        expect(response).to redirect_to new_user_path
+        expect(response).to redirect_to new_session_path
       end
     end
 
@@ -100,4 +102,48 @@ RSpec.describe CampaignsController, type: :controller do
       end
     end
   end
+
+  describe "#show" do
+    it "renders the show template" do
+      get :show, id: campaign.id
+      expect(response).to render_template(:show)
+    end
+
+    it "sets a campaign instance variable with the passed id" do
+      get :show, id: campaign.id
+      # there must be an instance variable named @campaign
+      expect(assigns(:campaign)).to eq(campaign)
+    end
+  end
+
+  describe "#edit" do
+    context "with user not signed in" do
+      it "redirects to sign in page" do
+        get :edit, id: campaign.id
+        expect(response).to redirect_to new_session_path
+      end
+    end
+    context "with user signed in" do
+      before { request.session[:user_id] = user.id }
+
+      # we defined our `campaign` above so that the creator of the campaign is
+      # `user` so `user` is the owner of the campaign so the user can edit it
+      context "with user allowed to edit campaign" do
+        it "renders the edit template" do
+          get :edit, id: campaign.id
+          expect(response).to render_template(:edit)
+        end
+
+        it "assigns an instance variable with the same id as the one in the URL" do
+          get :edit, id: campaign.id
+          expect(assigns(:campaign)).to eq(campaign)
+        end
+      end
+      context "with user not allowed to edit campaign" do
+        it "redirects to the home page"
+        it "sets a flash message"
+      end
+    end
+  end
+
 end

@@ -10,7 +10,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "#new" do
-    it "creates an instance varible with new user object" do
+    it "creates an instance variable with new user object" do
       get :new
       # this tests that there is an instance variable named `@user`  that is a
       # new object of the User class
