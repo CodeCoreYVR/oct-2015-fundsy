@@ -155,4 +155,26 @@ RSpec.describe CampaignsController, type: :controller do
     end
   end
 
+  describe "#update" do
+    context "with no signed in user" do
+      it "redirect user to the sign in page"
+    end
+    context "with signed in user" do
+      context "user is allowed to update the campaign" do
+        context "with valid paramters" do
+          it "redirects to show page"
+          it "changes the record in the database with new params"
+        end
+        context "with invalid paramters" do
+          it "render the edit page"
+          it "doesn't change the record in the database"
+        end
+      end
+      context "user is not allowed to update the campaign" do
+        it "redirects to home page"
+      end
+    end
+
+  end
+
 end
