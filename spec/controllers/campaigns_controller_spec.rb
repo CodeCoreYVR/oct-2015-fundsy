@@ -140,8 +140,17 @@ RSpec.describe CampaignsController, type: :controller do
         end
       end
       context "with user not allowed to edit campaign" do
-        it "redirects to the home page"
-        it "sets a flash message"
+        let(:campaign_1) { FactoryGirl.create(:campaign) }
+
+        it "redirects to the home page" do
+          get :edit, id: campaign_1.id
+          expect(response).to redirect_to root_path
+        end
+
+        it "sets a flash alert message" do
+          get :edit, id: campaign_1.id
+          expect(flash[:alert]).to be
+        end
       end
     end
   end
