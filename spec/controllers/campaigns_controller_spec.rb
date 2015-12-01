@@ -157,17 +157,40 @@ RSpec.describe CampaignsController, type: :controller do
 
   describe "#update" do
     context "with no signed in user" do
-      it "redirect user to the sign in page"
+      it "redirects the user to the sign in page" do
+        patch :update, id: campaign.id, campaign: {}
+        expect(response).to redirect_to new_session_path
+      end
     end
+
     context "with signed in user" do
+      before { request.session[:user_id] = user.id }
+
       context "user is allowed to update the campaign" do
         context "with valid paramters" do
-          it "redirects to show page"
-          it "changes the record in the database with new params"
+          it "redirects to show page" do
+            patch :update, id: campaign.id, campaign: {title: "new valid title"}
+            expect(response).to redirect_to campaign_path(campaign)
+          end
+          it "changes the record in the database with new params" do
+            patch :update, id: campaign.id, campaign: {title: "new valid title"}
+            # campaign.reload will force the object to re-execute the query
+            # (find query) to re-fetch the data from the database using the#
+            # same id. As if you did:
+            # campaign = Campaign.find(campaign.id)
+            expect(campaign.reload.title).to eq("new valid title")
+          end
         end
         context "with invalid paramters" do
-          it "render the edit page"
-          it "doesn't change the record in the database"
+          it "render the edit page" do
+            patch :update, id: campaign.id, campaign: {title: ""}
+            expect(response).to render_template(:edit)
+          end
+          it "doesn't change the record in the database" do
+            patch :update, id: campaign.id, campaign: {title: "",
+                                                       description: "valid desc"}
+            expect(campaign.reload.description).not_to eq("valid desc")
+          end
         end
       end
       context "user is not allowed to update the campaign" do
