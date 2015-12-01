@@ -20,5 +20,11 @@ RSpec.feature "Campaigns", type: :feature do
       expect(page).to have_selector "h2", text: "Recent Campaigns"
     end
 
+    it "displays the campaign's title" do
+      campaign = FactoryGirl.create(:campaign)
+      visit root_path
+      expect(page).to have_text /#{campaign.title}/i
+    end
+
   end
 end
