@@ -20,8 +20,16 @@ RSpec.feature "Sessions", type: :feature do
 
     end
 
-    it "incorrect credentials: " do
+    it "incorrect credentials: renders sign in page / see alert message " do
+      visit new_session_path
 
+      fill_in "Email", with: user.email
+      fill_in "Password", with: user.password + "asdf"
+      click_button "Sign In"
+
+      expect(current_path).to eq(sessions_path)
+      expect(page).to have_text /wrong credentials/i
+      expect(page).not_to have_text /#{user.full_name}/i
 
     end
 
