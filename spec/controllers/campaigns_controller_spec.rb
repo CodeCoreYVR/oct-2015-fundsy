@@ -14,7 +14,11 @@ RSpec.describe CampaignsController, type: :controller do
   #   @user ||= FactoryGirl.create(:user)
   # end
 
-  let(:campaign) { FactoryGirl.create(:campaign, user: user) }
+  let(:campaign)   { FactoryGirl.create(:campaign, user: user) }
+  # we're able to just put `create(:campaign)` instead of
+  # FactoryGirl.create(:campain) beucase we added this line to our `rails_helper`
+  # file: config.include FactoryGirl::Syntax::Methods 
+  let(:campaign_1) { create(:campaign) }
 
   describe "#new" do
     context "with user not signed in" do
@@ -140,7 +144,6 @@ RSpec.describe CampaignsController, type: :controller do
         end
       end
       context "with user not allowed to edit campaign" do
-        let(:campaign_1) { FactoryGirl.create(:campaign) }
 
         it "redirects to the home page" do
           get :edit, id: campaign_1.id
@@ -194,7 +197,6 @@ RSpec.describe CampaignsController, type: :controller do
         end
       end
       context "user is not allowed to update the campaign" do
-        let(:campaign_1) { FactoryGirl.create(:campaign) }
 
         it "redirects to home page" do
           patch :update, id: campaign_1.id, campaign: {title: "some valid title"}
@@ -206,7 +208,7 @@ RSpec.describe CampaignsController, type: :controller do
   end
 
   describe "#index" do
-    let(:campaign_1) { FactoryGirl.create(:campaign) }
+
 
     it "renders the index template" do
       get :index
@@ -249,7 +251,6 @@ RSpec.describe CampaignsController, type: :controller do
         end
       end
       context "user is not allowed to delete the campaign" do
-        let(:campaign_1) { FactoryGirl.create(:campaign) }
 
         it "redirects the user to the home page" do
           delete :destroy, id: campaign_1.id
