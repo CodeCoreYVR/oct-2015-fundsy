@@ -4,6 +4,7 @@ class CampaignsController < ApplicationController
 
   def new
     @campaign = Campaign.new
+    2.times { @campaign.rewards.build }
   end
 
   def create
@@ -55,7 +56,8 @@ class CampaignsController < ApplicationController
   end
 
   def campaign_params
-    params.require(:campaign).permit(:title, :goal, :description, :end_date)
+    params.require(:campaign).permit(:title, :goal, :description, :end_date,
+                                     rewards_attributes: [:amount, :body])
   end
 
 end
