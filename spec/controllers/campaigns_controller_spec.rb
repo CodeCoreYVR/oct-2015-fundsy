@@ -17,7 +17,7 @@ RSpec.describe CampaignsController, type: :controller do
   let(:campaign)   { FactoryGirl.create(:campaign, user: user) }
   # we're able to just put `create(:campaign)` instead of
   # FactoryGirl.create(:campain) beucase we added this line to our `rails_helper`
-  # file: config.include FactoryGirl::Syntax::Methods 
+  # file: config.include FactoryGirl::Syntax::Methods
   let(:campaign_1) { create(:campaign) }
 
   describe "#new" do
