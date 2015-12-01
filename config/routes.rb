@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   resources :users, only: [:new, :create]
-  resources :campaigns, only: [:new, :create, :show, :edit, :update]
+  resources :campaigns, only: [:new, :create, :show, :edit, :update, :index]
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection
   end

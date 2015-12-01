@@ -32,11 +32,17 @@ class CampaignsController < ApplicationController
     campaign_params = params.require(:campaign).permit(:title, :goal,
                                                        :description, :end_date)
     @campaign = Campaign.find params[:id]
-    if @campaign.update campaign_params
+    if @campaign.user != current_user
+      redirect_to root_path
+    elsif @campaign.update campaign_params
       redirect_to campaign_path(@campaign)
     else
       render :edit
     end
+  end
+
+  def index
+    @campaigns = Campaign.order(:created_at)
   end
 
 end

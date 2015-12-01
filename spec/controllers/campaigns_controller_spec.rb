@@ -194,10 +194,50 @@ RSpec.describe CampaignsController, type: :controller do
         end
       end
       context "user is not allowed to update the campaign" do
-        it "redirects to home page"
+        let(:campaign_1) { FactoryGirl.create(:campaign) }
+
+        it "redirects to home page" do
+          patch :update, id: campaign_1.id, campaign: {title: "some valid title"}
+          expect(response).to redirect_to(root_path)
+        end
       end
     end
 
+  end
+
+  describe "#index" do
+    let(:campaign_1) { FactoryGirl.create(:campaign) }
+
+    it "renders the index template" do
+      get :index
+      expect(response).to render_template(:index)
+    end
+
+    it "assigns an instance variable campaigns with all the campaigns" do
+      # GIVEN: we have campaigns created in the database
+      campaign
+      campaign_1
+      # WHEN: Making the GET request to the INDEX action
+      get :index
+      # THEN: I have an instance variable @campaigns that contain the two campaigns
+      expect(assigns[:campaigns]).to eq([campaign, campaign_1])
+    end
+
+  end
+
+  describe "#destroy" do
+    context "with user not signed in" do
+      it "redirects the user to the sign in page"
+    end
+    context "with user signed in" do
+      context "user is allowed to delete the campaign" do
+        it "removes the campaign from the database"
+        it "redirects to the campaigns index page"
+      end
+      context "user is not allowed to delete the campaign" do
+        it "redirect the user to the home page"
+      end
+    end
   end
 
 end
