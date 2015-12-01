@@ -1,5 +1,5 @@
 class CampaignsController < ApplicationController
-  before_action :authenticate_user, only: [:new, :create, :edit, :update]
+  before_action :authenticate_user, only: [:new, :create, :edit, :update, :destroy]
 
   def new
     @campaign = Campaign.new
@@ -43,6 +43,16 @@ class CampaignsController < ApplicationController
 
   def index
     @campaigns = Campaign.order(:created_at)
+  end
+
+  def destroy
+    @campaign = Campaign.find params[:id]
+    if current_user == @campaign.user
+      @campaign.destroy
+      redirect_to campaigns_path
+    else
+      redirect_to root_path
+    end
   end
 
 end

@@ -227,15 +227,34 @@ RSpec.describe CampaignsController, type: :controller do
 
   describe "#destroy" do
     context "with user not signed in" do
-      it "redirects the user to the sign in page"
+      it "redirects the user to the sign in page" do
+        delete :destroy, id: campaign.id
+        expect(response).to redirect_to new_session_path
+      end
     end
     context "with user signed in" do
+      before { request.session[:user_id] = user.id }
+
       context "user is allowed to delete the campaign" do
-        it "removes the campaign from the database"
-        it "redirects to the campaigns index page"
+        it "removes the campaign from the database" do
+          campaign # this makes the campaign created in the database
+          count_before = Campaign.count
+          delete(:destroy, {id: campaign.id})
+          count_after = Campaign.count
+          expect(count_before - count_after).to eq(1)
+        end
+        it "redirects to the campaigns index page" do
+          delete(:destroy, {id: campaign.id})
+          expect(response).to redirect_to(campaigns_path)
+        end
       end
       context "user is not allowed to delete the campaign" do
-        it "redirect the user to the home page"
+        let(:campaign_1) { FactoryGirl.create(:campaign) }
+
+        it "redirects the user to the home page" do
+          delete :destroy, id: campaign_1.id
+          expect(response).to redirect_to(root_path)
+        end
       end
     end
   end
