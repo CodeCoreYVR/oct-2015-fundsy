@@ -18,6 +18,8 @@ gem "bootstrap-sass"
 
 gem "cocoon"
 
+gem "slim-rails"
+
 gem "aasm"
 
 # Use jquery as the JavaScript library
