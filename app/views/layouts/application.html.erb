@@ -7,19 +7,27 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<% if user_signed_in? %>
-  <%= current_user.full_name %>
-  <%= link_to "Logout", sessions_path, method: :delete %>
-<% else %>
-
-<% end %>
-<%#= flash || notice %>
-<% if flash[:notice] %>
-  <div class="alert alert-success"><%= flash[:notice] %></div>
-<% elsif flash[:alert] %>
-  <div class="alert alert-danger"><%= flash[:alert] %></div>
-<% end %>
-<%= yield %>
-
+  <div class="container">
+    <nav>
+      <%= link_to "Home", root_path %> |
+      <%= link_to "New Campaign", new_campaign_path %> |
+      <div class="pull-right">
+        <% if user_signed_in? %>
+          <%= current_user.full_name %>
+          <%= link_to "Logout", sessions_path, method: :delete %>
+        <% else %>
+          <%= link_to "Sign In", new_session_path %>
+          <%= link_to "Sign Up", new_user_path %>
+        <% end %>
+      </div>
+    </nav>
+    <%#= flash || notice %>
+    <% if flash[:notice] %>
+      <div class="alert alert-success"><%= flash[:notice] %></div>
+    <% elsif flash[:alert] %>
+      <div class="alert alert-danger"><%= flash[:alert] %></div>
+    <% end %>
+    <%= yield %>
+  </div>
 </body>
 </html>

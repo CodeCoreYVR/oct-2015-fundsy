@@ -1,11 +1,2 @@
-<%= simple_form_for @campaign do |f| %>
-  <%= f.input :title %>
-  <%= f.input :description %>
-  <%= f.input :goal, as: :string %>
-  <%= f.input :end_date %>
-  <%= f.simple_fields_for :rewards do |r| %>
-    <%= r.input :body %>
-    <%= r.input :amount, as: :string %>
-  <% end %>
-  <%= f.submit %>
-<% end %>
+<h1>New Campaign</h1>
+<%= render "form" %>
