@@ -6,7 +6,7 @@ class CampaignsController < ApplicationController
 
   def new
     @campaign = Campaign.new
-    DEFAULT_REWARD_COUNT.times { @campaign.rewards.build }
+    # DEFAULT_REWARD_COUNT.times { @campaign.rewards.build }
   end
 
   def create
