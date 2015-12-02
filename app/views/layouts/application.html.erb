@@ -10,6 +10,7 @@
   <div class="container">
     <nav>
       <%= link_to "Home", root_path %> |
+      <%= link_to "Discussions", discussions_path %> |
       <%= link_to "New Campaign", new_campaign_path %> |
       <div class="pull-right">
         <% if user_signed_in? %>

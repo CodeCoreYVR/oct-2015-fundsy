@@ -1,8 +1,9 @@
 class Campaign < ActiveRecord::Base
   belongs_to :user
 
-  has_many :rewards, dependent: :destroy
+  has_many :comments, as: :commentable
 
+  has_many :rewards, dependent: :destroy
   # this enables us to creates rewards at the time we create the campaign.
   # by passing in special key: rewards_attributes
   # reject_if: :all_blank will ignore all nested rewards if all the attributes

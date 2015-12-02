@@ -21,3 +21,16 @@
     <p><%= reward.body %></p>
   </div>
 <% end %>
+
+<h2>Comments</h2>
+
+<%= simple_form_for [@campaign, @comment] do |f| %>
+  <%= f.input :body %>
+  <%= f.submit %>
+<% end %>
+
+<% @campaign.comments.each do |com| %>
+  <div class="well">
+    <%= com.body %>
+  </div>
+<% end %>
