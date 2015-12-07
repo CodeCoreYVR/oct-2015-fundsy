@@ -17,6 +17,21 @@ class Campaign < ActiveRecord::Base
   # this validation will ensure that the campaign has at least one reward
   validates :rewards, presence: {message: "must have at least 1 reward"}
 
+  # we instruct geocoder about the field we would like it to geocode by. In
+  # our case we only have a single database field called `address` so we can
+  # just pass that in. If you had multiple fields to compose the address then
+  # your can make a method that looks like:
+  # def full_street_address
+  #   "#{street_address} #{city} #{country} #{postal_code}"
+  # end
+  # then your line will be like:
+  # geocoded_by :full_street_address
+  geocoded_by :address
+
+  # This will initiate the `gecode` method after it validates the record so
+  # before saving you will have the `longitude` and `latitude`
+  after_validation :geocode
+
   include AASM
 
   # we put all the states and transitions in the `aasm` block

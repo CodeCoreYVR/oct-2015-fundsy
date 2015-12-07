@@ -16,6 +16,11 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem "bootstrap-sass"
 
+gem "geocoder"
+
+gem "underscore-rails"
+gem 'gmaps4rails'
+
 gem "cocoon"
 
 gem "aasm"

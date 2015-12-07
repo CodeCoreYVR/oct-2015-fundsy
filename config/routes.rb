@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
   resources :users, only: [:new, :create]
+  resources :nearby_campaigns, only: [:index]
   resources :campaigns do
     resources :publishings, only: [:create]
     resources :comments, only: [:create]

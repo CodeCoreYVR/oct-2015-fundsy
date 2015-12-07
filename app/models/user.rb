@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  geocoded_by :address
+  after_validation :geocode
+
   # has_many :comments, as: :commentable
 
   def full_name
