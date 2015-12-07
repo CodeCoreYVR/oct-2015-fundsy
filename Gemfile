@@ -16,6 +16,8 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem "bootstrap-sass"
 
+gem "quiet_assets"
+
 gem "geocoder"
 
 gem "underscore-rails"

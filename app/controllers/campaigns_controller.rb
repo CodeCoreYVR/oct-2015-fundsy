@@ -42,7 +42,11 @@ class CampaignsController < ApplicationController
   end
 
   def index
-    @campaigns = Campaign.order(:created_at)
+    @campaigns = Campaign.includes(:rewards).references(:rewards).order(:created_at)
+    respond_to do |format|
+      format.html { render }
+      format.json { render json: @campaigns.to_json }
+    end
   end
 
   def destroy
