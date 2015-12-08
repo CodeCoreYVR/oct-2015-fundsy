@@ -10,11 +10,12 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    @campaign = Campaign.new campaign_params
-    @campaign.user = current_user
-    if @campaign.save
-      redirect_to campaign_path(@campaign)
+    service = Campaigns::CreateCampaign.new(params: campaign_params,
+                                            user:   current_user)
+    if service.call
+      redirect_to campaign_path(service.campaign)
     else
+      @campaign = service.campaign
       number_to_build = DEFAULT_REWARD_COUNT - @campaign.rewards.size
       number_to_build.times { @campaign.rewards.build }
       render :new

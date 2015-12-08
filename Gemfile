@@ -18,6 +18,8 @@ gem "draper"
 
 gem "bootstrap-sass"
 
+gem "virtus"
+
 gem "quiet_assets"
 
 gem "geocoder"
