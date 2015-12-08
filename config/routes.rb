@@ -4,6 +4,17 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
   resources :users, only: [:new, :create]
+
+  # use `namespace` when you want to reference a controller nested within a
+  # folder inside the `controllers` folder. The url will reflect that as well
+  # as the place of the controller, for instance the url here will be:
+  # /api/v1/campaigns (for the campaigns index)
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      resources :campaigns
+    end
+  end
+
   resources :nearby_campaigns, only: [:index]
   resources :campaigns do
     resources :publishings, only: [:create]

@@ -45,6 +45,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem "simple_form"
 
+gem 'active_model_serializers'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
