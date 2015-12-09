@@ -2,9 +2,17 @@ class User < ActiveRecord::Base
   has_secure_password
 
   validates :email, presence: true,
-            format:{ with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
+            format:{ with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ },
+            unless: :from_omniauth?
   validates :first_name, presence: true
   validates :last_name, presence: true
+
+  has_many :campaigns, dependent: :destroy
+
+  # this enables us to store Hash data (or Array) and Rails will take care of
+  # `encoding` and `decoding` the Hash data so you can easily store it and
+  # retrieve it.
+  serialize :twitter_raw_data
 
   geocoded_by :address
   after_validation :geocode
@@ -18,6 +26,10 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def from_omniauth?
+    uid.present? && provider.present?
+  end
 
   def generate_api_key
     begin
