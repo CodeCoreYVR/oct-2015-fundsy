@@ -9,9 +9,21 @@ class User < ActiveRecord::Base
   geocoded_by :address
   after_validation :geocode
 
+  before_create :generate_api_key
+
   # has_many :comments, as: :commentable
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  private
+
+  def generate_api_key
+    begin
+      # SecureRandom is a class that helps us generate a randon String. We can
+      # use methods on it like SecureRandom.hex or SecureRandom.urlsafe_base64
+      self.api_key = SecureRandom.hex(32)
+    end while User.exists?(api_key: self.api_key)
   end
 end

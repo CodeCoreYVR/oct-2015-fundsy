@@ -1,4 +1,4 @@
-class Api::V1::CampaignsController < ApplicationController
+class Api::V1::CampaignsController < Api::BaseController
 
   def index
     @campaigns = Campaign.includes(:rewards).references(:rewards).
@@ -10,5 +10,4 @@ class Api::V1::CampaignsController < ApplicationController
     campaign = Campaign.find params[:id]
     render json: campaign
   end
-
 end
