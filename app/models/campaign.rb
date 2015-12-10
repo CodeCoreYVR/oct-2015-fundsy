@@ -3,6 +3,9 @@ class Campaign < ActiveRecord::Base
 
   has_many :comments, as: :commentable
 
+  has_many :pledges, dependent: :nullify
+  has_many :pledged_users, through: :pledges, source: :user
+
   has_many :rewards, dependent: :destroy
   # this enables us to creates rewards at the time we create the campaign.
   # by passing in special key: rewards_attributes

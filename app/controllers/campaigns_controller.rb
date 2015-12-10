@@ -23,7 +23,8 @@ class CampaignsController < ApplicationController
   end
 
   def show
-    @comment  = Comment.new
+    @comment = Comment.new
+    @pledge  = Pledge.new
   end
 
   def edit

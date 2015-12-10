@@ -21,8 +21,14 @@ Rails.application.routes.draw do
   resources :nearby_campaigns, only: [:index]
   resources :campaigns do
     resources :publishings, only: [:create]
+    resources :pledges, only: [:create]
     resources :comments, only: [:create]
   end
+
+  resources :pledges, only: [] do
+    resources :payments, only: [:new, :create]
+  end
+
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection
   end

@@ -36,7 +36,15 @@
     <p><%= reward.body %></p>
   </div>
 <% end %>
+<div class="clearfix"></div>
+<hr>
+<h2>Make a Pledge</h2>
+<%= simple_form_for [@campaign, @pledge] do |f| %>
+  <%= f.input :amount, as: :string %>
+  <%= f.submit "Pledge", class: "btn btn-primary" %>
+<% end %>
 
+<hr>
 <h2>Comments</h2>
 
 <%= simple_form_for [@campaign, @comment] do |f| %>

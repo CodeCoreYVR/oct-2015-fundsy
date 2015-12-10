@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
 
   has_many :campaigns, dependent: :destroy
 
+  has_many :pledges, dependent: :nullify
+  has_many :pledged_campaigns, through: :pledges, source: :campaign
+
   # this enables us to store Hash data (or Array) and Rails will take care of
   # `encoding` and `decoding` the Hash data so you can easily store it and
   # retrieve it.

@@ -51,6 +51,8 @@ gem 'omniauth-twitter'
 
 gem "twitter"
 
+gem 'stripe'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
