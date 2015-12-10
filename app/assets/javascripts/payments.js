@@ -16,8 +16,6 @@ $(document).ready(function(){
   });
 
   var stripeResponseHandler = function(status, response) {
-    console.log(status);
-    console.log(response);
     if(status === 200) {
       $("#stripe_token").val(response.id);
       $("#submission-form").submit();
