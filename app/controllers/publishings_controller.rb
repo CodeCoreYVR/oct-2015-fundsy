@@ -6,15 +6,16 @@ class PublishingsController < ApplicationController
     if campaign.publish
       campaign.save
 
+      DetermineFundingStateJob.set(wait_until: campaign.end_date).perform_later(campaign)
 
-      client = Twitter::REST::Client.new do |config|
-        config.consumer_key        = Rails.application.secrets.twitter_consumer_key
-        config.consumer_secret     = Rails.application.secrets.twitter_consumer_secret
-        config.access_token        = current_user.twitter_client_token
-        config.access_token_secret = current_user.twitter_client_secret
-      end
-      
-      client.update("#{campaign.title} has been published! #{campaign_url(campaign)}")
+      # client = Twitter::REST::Client.new do |config|
+      #   config.consumer_key        = Rails.application.secrets.twitter_consumer_key
+      #   config.consumer_secret     = Rails.application.secrets.twitter_consumer_secret
+      #   config.access_token        = current_user.twitter_client_token
+      #   config.access_token_secret = current_user.twitter_client_secret
+      # end
+      #
+      # client.update("#{campaign.title} has been published! #{campaign_url(campaign)}")
 
 
 

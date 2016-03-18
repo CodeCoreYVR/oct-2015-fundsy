@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :campaign do
+    after(:build) {|c| c.rewards << FactoryGirl.create(:reward) }
     # this will create a user object for the campaign and associate it with the
     # created object unless you explicitly pass a `:user` attribute when
     # creating the campaign

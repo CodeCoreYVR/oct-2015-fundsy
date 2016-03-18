@@ -6,6 +6,7 @@ class PledgesController < ApplicationController
     @pledge   = @campaign.pledges.new pledge_params
     @comment  = Comment.new
     if @pledge.save
+      CampaignsMailer.notify_owner_of_pledge(@campaign.object).deliver_now
       redirect_to new_pledge_payment_path(@pledge), notice: "Please make a payment"
     else
       render "/campaigns/show"

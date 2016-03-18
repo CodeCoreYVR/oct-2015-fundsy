@@ -51,17 +51,18 @@ RSpec.describe CampaignsController, type: :controller do
 
   describe "#create" do
     context "with no user signed in" do
-      it "redirects to the sign in page" do
-        post :create, {campaign: {}} # params don't matter here becuase the
-                                     # controller should redirect before making
-                                     # use of the campaign params
-        expect(response).to redirect_to new_session_path
-      end
+      it_behaves_like "non authenticated user", { post :create, {campaign: {title: 'abc'}} }.to_s
+      # it "redirects to the sign in page" do
+      #   post :create, {campaign: {}} # params don't matter here becuase the
+      #                                # controller should redirect before making
+      #                                # use of the campaign params
+      #   expect(response).to redirect_to new_session_path
+      # end
     end
 
     context "With user signed in" do
       def valid_params
-        FactoryGirl.attributes_for(:campaign)
+        FactoryGirl.attributes_for(:campaign).merge({rewards_attributes: {"0": FactoryGirl.attributes_for(:reward) }})
       end
 
       before do
@@ -71,6 +72,7 @@ RSpec.describe CampaignsController, type: :controller do
       context "with valid parameters" do
         it "creates a campaign record in the database" do
           before_count = Campaign.count
+          puts ">>>>>>>> #{valid_params}"
           post :create, campaign: valid_params
           after_count  = Campaign.count
           expect(after_count - before_count).to eq(1)

@@ -45,6 +45,9 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem "simple_form"
 
+gem "sinatra"
+gem 'sidekiq'
+
 gem 'active_model_serializers' #, github: "rails-api/active_model_serializers"
 
 gem 'omniauth-twitter'
